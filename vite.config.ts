@@ -4,7 +4,7 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  base: '/ai-fake-image-detector/',  // <-- this is critical for GitHub Pages
+  base: '/',  // <- Required for custom domain
   server: {
     host: "::",
     port: 8080,
