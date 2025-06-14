@@ -1,6 +1,15 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "./ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -19,12 +28,78 @@ const PageLayout = ({ children, title }: PageLayoutProps) => {
             </div>
             <h1 className="text-xl font-bold text-white">ImageGuard</h1>
           </Link>
-          <nav className="hidden md:flex space-x-6">
-            <Link to="/" className="text-gray-300 hover:text-white transition-colors">Home</Link>
-            <Link to="/blog" className="text-gray-300 hover:text-white transition-colors">Blog</Link>
-            <Link to="/privacy-policy" className="text-gray-300 hover:text-white transition-colors">Privacy</Link>
-            <Link to="/terms-conditions" className="text-gray-300 hover:text-white transition-colors">Terms</Link>
-          </nav>
+          
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link to="/" className="text-gray-300 hover:text-white transition-colors px-4 py-2">
+                  Home
+                </Link>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <Link to="/how-to-use" className="text-gray-300 hover:text-white transition-colors px-4 py-2">
+                  How To Use
+                </Link>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <Link to="/blog" className="text-gray-300 hover:text-white transition-colors px-4 py-2">
+                  Blog
+                </Link>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-gray-300 hover:text-white bg-transparent data-[state=open]:bg-gray-800/50">
+                  About
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="w-64 p-2 bg-gray-800 border border-gray-700">
+                    <NavigationMenuLink asChild>
+                      <Link 
+                        to="/privacy-policy" 
+                        className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors"
+                      >
+                        Privacy Policy
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link 
+                        to="/terms-conditions" 
+                        className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors"
+                      >
+                        Terms & Conditions
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link 
+                        to="/disclaimer" 
+                        className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors"
+                      >
+                        Disclaimer
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link 
+                        to="/data-storage-policy" 
+                        className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors"
+                      >
+                        Data Storage Policy
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link 
+                        to="/liability-waiver" 
+                        className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors"
+                      >
+                        Liability Waiver
+                      </Link>
+                    </NavigationMenuLink>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
       </header>
 
@@ -60,6 +135,7 @@ const PageLayout = ({ children, title }: PageLayoutProps) => {
             <div>
               <h4 className="text-white font-semibold mb-4">Resources</h4>
               <div className="space-y-2">
+                <Link to="/how-to-use" className="block text-gray-400 hover:text-white text-sm transition-colors">How To Use</Link>
                 <Link to="/blog" className="block text-gray-400 hover:text-white text-sm transition-colors">Blog</Link>
                 <Link to="/data-storage-policy" className="block text-gray-400 hover:text-white text-sm transition-colors">Data Storage</Link>
               </div>
