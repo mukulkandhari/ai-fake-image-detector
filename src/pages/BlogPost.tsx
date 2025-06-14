@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
@@ -349,14 +348,13 @@ const BlogPost = () => {
       
       <div 
         className="prose prose-invert prose-lg max-w-none
-          prose-headings:text-white prose-headings:font-bold prose-headings:mb-4 prose-headings:mt-8
-          prose-h2:text-2xl prose-h2:text-blue-400 prose-h2:border-b prose-h2:border-gray-700 prose-h2:pb-2
-          prose-h3:text-xl prose-h3:text-cyan-400 prose-h3:mt-6
-          prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-4
-          prose-ul:text-gray-300 prose-ul:mb-4
-          prose-li:mb-2 prose-li:leading-relaxed
-          prose-strong:text-white prose-strong:font-semibold
-          first:prose-p:text-lg first:prose-p:font-medium first:prose-p:text-gray-200"
+          [&_h2]:text-2xl [&_h2]:text-blue-400 [&_h2]:font-bold [&_h2]:mb-6 [&_h2]:mt-8 [&_h2]:border-b [&_h2]:border-gray-700 [&_h2]:pb-3
+          [&_h3]:text-xl [&_h3]:text-cyan-400 [&_h3]:font-semibold [&_h3]:mb-4 [&_h3]:mt-6
+          [&_p]:text-gray-200 [&_p]:leading-relaxed [&_p]:mb-6 [&_p]:text-base
+          [&_p:first-child]:text-lg [&_p:first-child]:font-medium [&_p:first-child]:text-gray-100
+          [&_ul]:text-gray-200 [&_ul]:mb-6 [&_ul]:pl-6
+          [&_li]:mb-3 [&_li]:leading-relaxed [&_li]:list-disc
+          [&_strong]:text-white [&_strong]:font-semibold"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
     </PageLayout>
