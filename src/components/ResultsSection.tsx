@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { CheckCircle, AlertTriangle, Shield, Eye, Palette, Brain, Download } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Shield, Eye, Palette, Brain, Download, Share2 } from 'lucide-react';
 import { Button } from './ui/button';
+import { toast } from "sonner";
 
 interface AnalysisResult {
   overallScore: number;
@@ -80,6 +81,19 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({ files }) => {
 
   if (completedFiles.length === 0) return null;
 
+  const handleShare = (result: AnalysisResult) => {
+    try {
+      const jsonResult = JSON.stringify(result);
+      const encodedResult = btoa(jsonResult);
+      const shareUrl = `${window.location.origin}/share?data=${encodedResult}`;
+      navigator.clipboard.writeText(shareUrl);
+      toast.success("Share link copied to clipboard!");
+    } catch (error) {
+      console.error("Failed to create share link:", error);
+      toast.error("Could not create share link.");
+    }
+  };
+
   const getStatusColor = (authenticity: string) => {
     switch (authenticity) {
       case 'authentic': return 'text-green-400';
@@ -140,10 +154,20 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({ files }) => {
                     </p>
                   </div>
                 </div>
-                <Button className="bg-blue-500 hover:bg-blue-600 text-white">
-                  <Download className="w-4 h-4 mr-2" />
-                  Export Report
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button className="bg-blue-500 hover:bg-blue-600 text-white">
+                    <Download className="w-4 h-4 mr-2" />
+                    Export Report
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleShare(result)}
+                    className="border-gray-600 hover:bg-gray-700/50"
+                  >
+                    <Share2 className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
 
               {/* Overall Score */}

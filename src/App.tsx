@@ -14,6 +14,7 @@ import Disclaimer from "./pages/Disclaimer";
 import DataStoragePolicy from "./pages/DataStoragePolicy";
 import LiabilityWaiver from "./pages/LiabilityWaiver";
 import NotFound from "./pages/NotFound";
+import Share from "./pages/Share";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/data-storage-policy" element={<DataStoragePolicy />} />
           <Route path="/liability-waiver" element={<LiabilityWaiver />} />
+          <Route path="/share" element={<Share />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
