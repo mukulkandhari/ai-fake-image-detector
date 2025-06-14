@@ -58,39 +58,49 @@ const Blog = () => {
   return (
     <PageLayout title="AI Image Detection Blog">
       <div className="space-y-8">
-        <p className="text-gray-300 text-lg leading-relaxed">
-          Stay informed about the latest developments in AI image detection, digital forensics, and authentication technologies.
-        </p>
+        <div className="text-center">
+          <p className="text-gray-300 text-lg leading-relaxed max-w-3xl mx-auto">
+            Stay informed about the latest developments in AI image detection, digital forensics, and authentication technologies. Learn how to protect yourself from fake images and understand the technology behind image verification.
+          </p>
+        </div>
         
         <div className="grid gap-8">
           {blogPosts.map((post) => (
-            <article key={post.slug} className="bg-gray-900/50 rounded-xl p-6 border border-gray-700/30 hover:border-blue-400/30 transition-all duration-300">
-              <div className="flex items-center space-x-4 mb-4">
+            <article key={post.slug} className="bg-gray-900/50 rounded-xl p-6 border border-gray-700/30 hover:border-blue-400/30 transition-all duration-300 group">
+              <div className="flex flex-wrap items-center gap-3 mb-4">
                 <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm font-medium">
                   {post.category}
                 </span>
                 <span className="text-gray-400 text-sm">{post.date}</span>
+                <span className="text-gray-400 text-sm">•</span>
                 <span className="text-gray-400 text-sm">{post.readTime}</span>
               </div>
               
-              <h2 className="text-2xl font-bold text-white mb-3 hover:text-blue-400 transition-colors">
-                <Link to={`/blog/${post.slug}`}>
+              <h2 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors leading-tight">
+                <Link to={`/blog/${post.slug}`} className="block">
                   {post.title}
                 </Link>
               </h2>
               
-              <p className="text-gray-300 mb-4 leading-relaxed">
+              <p className="text-gray-300 mb-6 leading-relaxed">
                 {post.excerpt}
               </p>
               
               <Link 
                 to={`/blog/${post.slug}`}
-                className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors"
+                className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors group"
               >
-                Read More →
+                Read Full Article
+                <span className="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </article>
           ))}
+        </div>
+
+        <div className="text-center pt-8 border-t border-gray-700">
+          <p className="text-gray-400">
+            Want to stay updated? Follow us for the latest insights on image authenticity and AI detection technology.
+          </p>
         </div>
       </div>
     </PageLayout>

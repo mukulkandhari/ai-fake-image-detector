@@ -24,9 +24,9 @@ const PageLayout = ({ children, title }: PageLayoutProps) => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">AI</span>
+              <span className="text-white font-bold text-sm">FP</span>
             </div>
-            <h1 className="text-xl font-bold text-white">ImageGuard</h1>
+            <h1 className="text-xl font-bold text-white">FakePicDetector</h1>
           </Link>
           
           <NavigationMenu className="hidden md:flex">
@@ -120,7 +120,7 @@ const PageLayout = ({ children, title }: PageLayoutProps) => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-white font-semibold mb-4">ImageGuard</h3>
+              <h3 className="text-white font-semibold mb-4">FakePicDetector</h3>
               <p className="text-gray-400 text-sm">Advanced AI image authenticity detection</p>
             </div>
             <div>
@@ -142,11 +142,11 @@ const PageLayout = ({ children, title }: PageLayoutProps) => {
             </div>
             <div>
               <h4 className="text-white font-semibold mb-4">Contact</h4>
-              <p className="text-gray-400 text-sm">support@imageguard.ai</p>
+              <p className="text-gray-400 text-sm">support@fakepicdetector.online</p>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-            <p className="text-gray-400 text-sm">© 2024 ImageGuard. All rights reserved.</p>
+            <p className="text-gray-400 text-sm">© 2024 FakePicDetector. All rights reserved.</p>
           </div>
         </div>
       </footer>
