@@ -1,9 +1,37 @@
-
 import React, { useState, useCallback } from 'react';
 import { FileUpload } from '../components/FileUpload';
 import { ImagePreview } from '../components/ImagePreview';
 import { AnalysisSection } from '../components/AnalysisSection';
+import { ResultsSection } from '../components/ResultsSection';
 import { FeaturesSection } from '../components/FeaturesSection';
+
+interface AnalysisResult {
+  overallScore: number;
+  authenticity: 'authentic' | 'suspicious' | 'manipulated';
+  confidence: number;
+  details: {
+    metadata: {
+      score: number;
+      findings: string[];
+      status: 'pass' | 'warning' | 'fail';
+    };
+    noisePattern: {
+      score: number;
+      findings: string[];
+      status: 'pass' | 'warning' | 'fail';
+    };
+    colorDistribution: {
+      score: number;
+      findings: string[];
+      status: 'pass' | 'warning' | 'fail';
+    };
+    aiGeneration: {
+      score: number;
+      findings: string[];
+      status: 'pass' | 'warning' | 'fail';
+    };
+  };
+}
 
 interface UploadedFile {
   file: File;
@@ -11,11 +39,65 @@ interface UploadedFile {
   preview: string;
   status: 'pending' | 'analyzing' | 'complete' | 'error';
   progress: number;
+  result?: AnalysisResult;
 }
 
 const Index = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const generateMockResult = (): AnalysisResult => {
+    const authenticity: ('authentic' | 'suspicious' | 'manipulated')[] = ['authentic', 'suspicious', 'manipulated'];
+    const selectedAuthenticity = authenticity[Math.floor(Math.random() * authenticity.length)];
+    
+    const baseScore = selectedAuthenticity === 'authentic' ? 85 + Math.random() * 15 :
+                     selectedAuthenticity === 'suspicious' ? 40 + Math.random() * 40 :
+                     Math.random() * 40;
+
+    return {
+      overallScore: Math.round(baseScore),
+      authenticity: selectedAuthenticity,
+      confidence: Math.round(70 + Math.random() * 30),
+      details: {
+        metadata: {
+          score: Math.round(baseScore + (Math.random() - 0.5) * 20),
+          findings: [
+            'EXIF data consistent with camera model',
+            'Timestamp matches file creation date',
+            'GPS coordinates validated'
+          ],
+          status: baseScore > 70 ? 'pass' : baseScore > 40 ? 'warning' : 'fail'
+        },
+        noisePattern: {
+          score: Math.round(baseScore + (Math.random() - 0.5) * 20),
+          findings: [
+            'Natural sensor noise patterns detected',
+            'No double compression artifacts',
+            'Consistent luminance distribution'
+          ],
+          status: baseScore > 70 ? 'pass' : baseScore > 40 ? 'warning' : 'fail'
+        },
+        colorDistribution: {
+          score: Math.round(baseScore + (Math.random() - 0.5) * 20),
+          findings: [
+            'Color histogram appears natural',
+            'No artificial color enhancement detected',
+            'White balance consistent throughout'
+          ],
+          status: baseScore > 70 ? 'pass' : baseScore > 40 ? 'warning' : 'fail'
+        },
+        aiGeneration: {
+          score: Math.round(baseScore + (Math.random() - 0.5) * 20),
+          findings: [
+            'No GAN fingerprints detected',
+            'Texture patterns appear natural',
+            'No artificial generation signatures'
+          ],
+          status: baseScore > 70 ? 'pass' : baseScore > 40 ? 'warning' : 'fail'
+        }
+      }
+    };
+  };
 
   const handleFilesUploaded = useCallback((files: File[]) => {
     const newFiles: UploadedFile[] = files.map(file => ({
@@ -44,10 +126,11 @@ const Index = () => {
           if (progress >= 100) {
             progress = 100;
             clearInterval(interval);
+            const result = generateMockResult();
             setUploadedFiles(prev => 
               prev.map(f => 
                 f.id === file.id 
-                  ? { ...f, status: 'complete', progress: 100 }
+                  ? { ...f, status: 'complete', progress: 100, result }
                   : f
               )
             );
@@ -126,6 +209,15 @@ const Index = () => {
         <section className="px-6 py-12">
           <div className="max-w-6xl mx-auto">
             <AnalysisSection files={uploadedFiles} />
+          </div>
+        </section>
+      )}
+
+      {/* Results Section */}
+      {uploadedFiles.some(f => f.status === 'complete') && (
+        <section className="px-6 py-12">
+          <div className="max-w-6xl mx-auto">
+            <ResultsSection files={uploadedFiles} />
           </div>
         </section>
       )}
