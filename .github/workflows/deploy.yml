@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -31,3 +31,5 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           cname: fakepicdetector.online
+          user_name: Mukul Kandhari
+          user_email: mukulkandhari@gmail.com  # <-- replace with your GitHub email if needed
