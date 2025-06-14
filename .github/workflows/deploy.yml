@@ -1,16 +1,16 @@
-name: Deploy Vite App to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # or 'master' if that's your default
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Vite app
+      - name: Build the app
         run: npm run build
 
       - name: Deploy to GitHub Pages
@@ -30,3 +30,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
+          cname: fakepicdetector.online
