@@ -1,8 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
-import { CheckCircle, AlertTriangle, Shield, Eye, Palette, Brain } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Shield, Eye, Palette, Brain, Share2, Copy, Twitter, Facebook, Linkedin } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 // This type definition is duplicated from Index.tsx. 
 // Consider moving to a shared types file for better maintainability.
@@ -77,6 +85,31 @@ const Share = () => {
     }
   }, [searchParams]);
 
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.success("Share link copied to clipboard!");
+  };
+
+  const handleSocialShare = (platform: 'twitter' | 'facebook' | 'linkedin') => {
+    const shareUrl = window.location.href;
+    const text = "Check out this image authenticity report!";
+    const title = "Image Authenticity Report";
+
+    let url = '';
+    switch (platform) {
+        case 'twitter':
+            url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
+            break;
+        case 'facebook':
+            url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+            break;
+        case 'linkedin':
+            url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(text)}`;
+            break;
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   if (error) {
     return (
       <PageLayout title="Error">
@@ -98,7 +131,35 @@ const Share = () => {
   return (
     <PageLayout title="Shared Analysis Result">
       <div className="bg-gray-800/40 backdrop-blur-xl rounded-xl border border-white/10 overflow-hidden">
-        <div className="p-6 border-b border-white/10">
+        <div className="p-6 border-b border-white/10 relative">
+          <div className="absolute top-4 right-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="border-gray-600 hover:bg-gray-700/50">
+                  <Share2 className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-gray-800 border-gray-700 text-white">
+                <DropdownMenuItem onClick={handleCopyLink} className="focus:bg-gray-700">
+                  <Copy className="mr-2 h-4 w-4" />
+                  <span>Copy Link</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-gray-600" />
+                <DropdownMenuItem onClick={() => handleSocialShare('twitter')} className="focus:bg-gray-700">
+                  <Twitter className="mr-2 h-4 w-4" />
+                  <span>Share on Twitter</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleSocialShare('facebook')} className="focus:bg-gray-700">
+                  <Facebook className="mr-2 h-4 w-4" />
+                  <span>Share on Facebook</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleSocialShare('linkedin')} className="focus:bg-gray-700">
+                  <Linkedin className="mr-2 h-4 w-4" />
+                  <span>Share on LinkedIn</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
           <h4 className="text-white font-semibold text-lg mb-4 text-center">Image Authenticity Report</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">

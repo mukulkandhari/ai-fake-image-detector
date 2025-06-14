@@ -1,8 +1,14 @@
-
 import React from 'react';
-import { CheckCircle, AlertTriangle, Shield, Eye, Palette, Brain, Download, Share2 } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Shield, Eye, Palette, Brain, Share2, Copy, Twitter, Facebook, Linkedin } from 'lucide-react';
 import { Button } from './ui/button';
 import { toast } from "sonner";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
 
 interface AnalysisResult {
   overallScore: number;
@@ -81,16 +87,44 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({ files }) => {
 
   if (completedFiles.length === 0) return null;
 
-  const handleShare = (result: AnalysisResult) => {
+  const getShareUrl = (result: AnalysisResult) => {
+    const jsonResult = JSON.stringify(result);
+    return `${window.location.origin}/share?data=${btoa(jsonResult)}`;
+  }
+
+  const handleCopyLink = (result: AnalysisResult) => {
     try {
-      const jsonResult = JSON.stringify(result);
-      const encodedResult = btoa(jsonResult);
-      const shareUrl = `${window.location.origin}/share?data=${encodedResult}`;
+      const shareUrl = getShareUrl(result);
       navigator.clipboard.writeText(shareUrl);
       toast.success("Share link copied to clipboard!");
     } catch (error) {
       console.error("Failed to create share link:", error);
       toast.error("Could not create share link.");
+    }
+  };
+  
+  const handleSocialShare = (platform: 'twitter' | 'facebook' | 'linkedin', result: AnalysisResult) => {
+    try {
+      const shareUrl = getShareUrl(result);
+      const text = "Check out my image authenticity report!";
+      const title = "Image Authenticity Report";
+
+      let url = '';
+      switch (platform) {
+        case 'twitter':
+          url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
+          break;
+        case 'facebook':
+          url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+          break;
+        case 'linkedin':
+          url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(text)}`;
+          break;
+      }
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+        console.error(`Failed to share on ${platform}:`, error);
+        toast.error(`Could not create share link for ${platform}.`);
     }
   };
 
@@ -155,18 +189,32 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({ files }) => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button className="bg-blue-500 hover:bg-blue-600 text-white">
-                    <Download className="w-4 h-4 mr-2" />
-                    Export Report
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleShare(result)}
-                    className="border-gray-600 hover:bg-gray-700/50"
-                  >
-                    <Share2 className="w-4 h-4" />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="icon" className="border-gray-600 hover:bg-gray-700/50">
+                        <Share2 className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="bg-gray-800 border-gray-700 text-white">
+                      <DropdownMenuItem onClick={() => handleCopyLink(result)} className="focus:bg-gray-700">
+                        <Copy className="mr-2 h-4 w-4" />
+                        <span>Copy Link</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-gray-600" />
+                       <DropdownMenuItem onClick={() => handleSocialShare('twitter', result)} className="focus:bg-gray-700">
+                        <Twitter className="mr-2 h-4 w-4" />
+                        <span>Share on Twitter</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleSocialShare('facebook', result)} className="focus:bg-gray-700">
+                        <Facebook className="mr-2 h-4 w-4" />
+                        <span>Share on Facebook</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleSocialShare('linkedin', result)} className="focus:bg-gray-700">
+                        <Linkedin className="mr-2 h-4 w-4" />
+                        <span>Share on LinkedIn</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
 
