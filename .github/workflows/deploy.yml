@@ -32,4 +32,4 @@ jobs:
           publish_branch: gh-pages
           cname: fakepicdetector.online
           user_name: Mukul Kandhari
-          user_email: mukulkandhari@gmail.com  # <-- replace with your GitHub email if needed
+          user_email: kandharimukul@gmail.com  # <-- replace with your GitHub email if needed
