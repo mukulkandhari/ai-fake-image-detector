@@ -54,7 +54,7 @@ const PageLayout = ({ children, title }: PageLayoutProps) => {
                   About
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-64 p-2 bg-gray-800 border border-gray-700">
+                  <div className="w-64 p-2 bg-gray-800 border border-gray-700 z-50">
                     <NavigationMenuLink asChild>
                       <Link 
                         to="/privacy-policy" 
