@@ -31,5 +31,5 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           cname: fakepicdetector.online
-          user_name: Mukul Kandhari
+          user_name: mukulkandhari
           user_email: kandharimukul@gmail.com  # <-- replace with your GitHub email if needed
